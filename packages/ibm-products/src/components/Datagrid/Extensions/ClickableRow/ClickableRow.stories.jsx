@@ -38,6 +38,7 @@ export default {
     docs: {
       page: () => (
         <StoryDocsPage
+          omitCodedExample
           blocks={[
             {
               title: 'Row click',
@@ -95,7 +96,6 @@ const defaultHeader = [
         <Link
           className={`${storyBlockClass}__custom-cell-wrapper`}
           href={cell?.value?.href}
-          title={cell?.value?.text}
         >
           {cell?.value?.text}
         </Link>

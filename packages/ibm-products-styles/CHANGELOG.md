@@ -3,6 +3,68 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.40.0-rc.1](https://github.com/carbon-design-system/ibm-products/compare/@carbon/ibm-products-styles@2.40.0-rc.0...@carbon/ibm-products-styles@2.40.0-rc.1) (2024-06-26)
+
+
+### Bug Fixes
+
+* **DataGrid:** add checkbox support ([#5380](https://github.com/carbon-design-system/ibm-products/issues/5380)) ([b1761a0](https://github.com/carbon-design-system/ibm-products/commit/b1761a0fd713a3682dd812cebe98f4503ef70f04))
+
+
+### Features
+
+* **dataspreadsheet:** optional custom component to row header ([#5500](https://github.com/carbon-design-system/ibm-products/issues/5500)) ([ee749e4](https://github.com/carbon-design-system/ibm-products/commit/ee749e4485e15c30b850b9dfc3a12927d23885b0))
+
+
+
+
+
+# [2.40.0-rc.0](https://github.com/carbon-design-system/ibm-products/compare/@carbon/ibm-products-styles@2.39.0...@carbon/ibm-products-styles@2.40.0-rc.0) (2024-06-24)
+
+
+### Bug Fixes
+
+* **dataspreadsheet:** drag drop when we have overflow ([#5506](https://github.com/carbon-design-system/ibm-products/issues/5506)) ([8a0d1a4](https://github.com/carbon-design-system/ibm-products/commit/8a0d1a48aca63b9f5111c7c10abf0e385151a1ad))
+* upgrade sass and remove `--` prefix from function names ([#5371](https://github.com/carbon-design-system/ibm-products/issues/5371)) ([91f282e](https://github.com/carbon-design-system/ibm-products/commit/91f282e56eec038f7efda4dd15c08d708c46cb58))
+
+
+### Features
+
+* **ConditionBuilder:** action section,custom input and fixes ([#5474](https://github.com/carbon-design-system/ibm-products/issues/5474)) ([bd909f7](https://github.com/carbon-design-system/ibm-products/commit/bd909f77c703d93bfc82eadf96c088b4e10ab5df))
+
+
+
+
+
+# [2.39.0](https://github.com/carbon-design-system/ibm-products/compare/@carbon/ibm-products-styles@2.38.1...@carbon/ibm-products-styles@2.39.0) (2024-06-13)
+
+
+### Bug Fixes
+
+* **Datagrid:** sticky header column ([#5461](https://github.com/carbon-design-system/ibm-products/issues/5461)) ([3b33561](https://github.com/carbon-design-system/ibm-products/commit/3b33561d5df828ea99b250d2f610752134828bf2))
+* **novice-to-pro:** change to onboarding and added getStartedCard ([#5422](https://github.com/carbon-design-system/ibm-products/issues/5422)) ([7442150](https://github.com/carbon-design-system/ibm-products/commit/7442150e758ba89967e09233bc45c944bdb8c37f))
+
+
+### Features
+
+* **conditionBuilder:** tree variant initial implmentation ([#5397](https://github.com/carbon-design-system/ibm-products/issues/5397)) ([553f2c7](https://github.com/carbon-design-system/ibm-products/commit/553f2c7e1c6848e853abd71d493b3bca77968252))
+* **SidePanel:** adding tooltip ([#5390](https://github.com/carbon-design-system/ibm-products/issues/5390)) ([254149c](https://github.com/carbon-design-system/ibm-products/commit/254149c106786ec59a59572b3fc2602fa63637f6))
+
+
+
+
+
+## [2.38.1](https://github.com/carbon-design-system/ibm-products/compare/@carbon/ibm-products-styles@2.38.0...@carbon/ibm-products-styles@2.38.1) (2024-06-11)
+
+
+### Bug Fixes
+
+* **Datagrid:** add disable cell support ([#5385](https://github.com/carbon-design-system/ibm-products/issues/5385)) ([106c0c4](https://github.com/carbon-design-system/ibm-products/commit/106c0c49331d3b54a0395020b1d0b8277ad1046e))
+
+
+
+
+
 # [2.38.0](https://github.com/carbon-design-system/ibm-products/compare/@carbon/ibm-products-styles@2.37.1...@carbon/ibm-products-styles@2.38.0) (2024-06-04)
 
 

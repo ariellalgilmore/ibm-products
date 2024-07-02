@@ -29,11 +29,12 @@ import { checkForHoldingKey } from './utils/checkForHoldingKey';
 import { prepareProps } from '../../global/js/utils/props-helper';
 import {
   ActiveCellCoordinates,
-  Column,
   ItemType,
   PrevState,
   Size,
+  SpreadsheetColumn,
 } from './types';
+import { Column } from 'react-table';
 
 const blockClass = `${pkg.prefix}--data-spreadsheet`;
 
@@ -49,6 +50,11 @@ interface DataSpreadsheetHeaderProps {
   cellSize?: Size;
 
   /**
+   * Disable column swapping, default false
+   */
+  disableColumnSwapping?: boolean;
+
+  /**
    * All of the spreadsheet columns
    */
   columns?: readonly Column[];
@@ -61,7 +67,7 @@ interface DataSpreadsheetHeaderProps {
   /**
    * Default spreadsheet sizing values
    */
-  defaultColumn?: Column;
+  defaultColumn?: SpreadsheetColumn;
 
   /**
    * Whether or not a click/hold is active on a header cell
@@ -72,6 +78,11 @@ interface DataSpreadsheetHeaderProps {
    * Headers provided from useTable hook
    */
   headerGroups?: any[];
+
+  /**
+   * Read-only table
+   */
+  readOnlyTable?: boolean;
 
   /**
    * All of the spreadsheet row data
@@ -99,6 +110,16 @@ interface DataSpreadsheetHeaderProps {
   setActiveCellCoordinates?: Dispatch<
     SetStateAction<ActiveCellCoordinates | null>
   >;
+
+  /**
+   * Header reordering is active
+   */
+  selectedHeaderReorderActive?: boolean;
+
+  /**
+   * Set header reordering active or not
+   */
+  setSelectedHeaderReorderActive?: Dispatch<SetStateAction<boolean>>;
 
   /**
    * Setter fn for currentMatcher value
@@ -134,7 +155,7 @@ interface DataSpreadsheetHeaderProps {
   /**
    * Array of visible columns provided by react-table useTable hook
    */
-  visibleColumns?: [];
+  visibleColumns?: Column<object>[];
 }
 
 export const DataSpreadsheetHeader = forwardRef(
@@ -148,9 +169,13 @@ export const DataSpreadsheetHeader = forwardRef(
       headerGroups,
       scrollBarSize,
       selectionAreas,
+      selectedHeaderReorderActive,
+      setSelectedHeaderReorderActive,
       setActiveCellCoordinates,
       setCurrentMatcher,
       setSelectionAreas,
+      readOnlyTable,
+      disableColumnSwapping,
       setSelectionAreaData,
       rows,
       totalVisibleColumns,
@@ -165,8 +190,6 @@ export const DataSpreadsheetHeader = forwardRef(
     const [scrollBarSizeValue, setScrollBarSizeValue] = useState<
       number | undefined
     >(0);
-    const [selectedHeaderReorderActive, setSelectedHeaderReorderActive] =
-      useState(false);
     const previousState: PrevState = usePreviousValue({ cellSize }) || {};
     useEffect(() => {
       if (previousState?.cellSize !== cellSize) {
@@ -229,7 +252,6 @@ export const DataSpreadsheetHeader = forwardRef(
           // Remove columns, need to call handleHeaderCellSelection
           return;
         }
-        setSelectedHeaderReorderActive(true);
         const selectionAreaToClone = selectionAreas?.filter(
           (item) => item?.matcher === currentMatcher
         );
@@ -238,6 +260,15 @@ export const DataSpreadsheetHeader = forwardRef(
         ).current.querySelector(
           `[data-matcher-id="${selectionAreaToClone?.[0]?.matcher}"]`
         );
+        if (selectionAreaElement) {
+          selectionAreaElement.classList.add(
+            `${blockClass}__selection-area--element`
+          );
+        }
+        if (typeof setSelectedHeaderReorderActive === 'function') {
+          setSelectedHeaderReorderActive(true);
+        }
+
         const clickXPosition = event.clientX;
         const headerButtonCoords = event.target.getBoundingClientRect();
         const headerIndex = event.target.getAttribute('data-column-index');
@@ -323,6 +354,9 @@ export const DataSpreadsheetHeader = forwardRef(
                   data-row-index="header"
                   data-column-index="header"
                   type="button"
+                  style={{
+                    width: defaultColumn?.rowHeaderWidth,
+                  }}
                   tabIndex={-1}
                   aria-label={selectAllAriaLabel}
                   onClick={handleSelectAllClick}
@@ -362,12 +396,17 @@ export const DataSpreadsheetHeader = forwardRef(
                       data-column-index={index}
                       tabIndex={-1}
                       onMouseDown={
-                        selectedHeader
+                        selectedHeader &&
+                        !readOnlyTable &&
+                        !disableColumnSwapping
                           ? handleHeaderMouseDown(index)
                           : undefined
                       }
                       onMouseUp={
-                        selectedHeader
+                        selectedHeader &&
+                        !readOnlyTable &&
+                        !disableColumnSwapping &&
+                        typeof setSelectedHeaderReorderActive === 'function'
                           ? () => setSelectedHeaderReorderActive(false)
                           : undefined
                       }
@@ -391,6 +430,8 @@ export const DataSpreadsheetHeader = forwardRef(
                               selectionAreas,
                               'column'
                             ),
+                          [`${blockClass}__th--active-header-disabledSwapping`]:
+                            disableColumnSwapping || readOnlyTable,
                           [`${blockClass}__th--selected-header`]:
                             selectedHeader,
                           [`${blockClass}__th--selected-header-reorder-active`]:
@@ -448,6 +489,11 @@ DataSpreadsheetHeader.propTypes = {
   }),
 
   /**
+   * Disable column swapping, default false
+   */
+  disableColumnSwapping: PropTypes.bool,
+
+  /**
    * Whether or not a click/hold is active on a header cell
    */
   headerCellHoldActive: PropTypes.bool,
@@ -456,6 +502,11 @@ DataSpreadsheetHeader.propTypes = {
    * Headers provided from useTable hook
    */
   headerGroups: PropTypes.arrayOf(PropTypes.object),
+
+  /**
+   * Read-only table
+   */
+  readOnlyTable: PropTypes.bool,
 
   /**
    * All of the spreadsheet row data
@@ -472,6 +523,11 @@ DataSpreadsheetHeader.propTypes = {
    * The aria label applied to the Select all button
    */
   selectAllAriaLabel: PropTypes.string.isRequired,
+
+  /**
+   * Header reordering is active
+   */
+  selectedHeaderReorderActive: PropTypes.bool,
 
   /**
    * All of the cell selection area items
@@ -493,6 +549,11 @@ DataSpreadsheetHeader.propTypes = {
    * Setter fn for header cell hold active value
    */
   setHeaderCellHoldActive: PropTypes.func,
+
+  /**
+   * Set header reordering active or not
+   */
+  setSelectedHeaderReorderActive: PropTypes.func,
 
   /**
    * Setter fn for selectionAreaData state value
